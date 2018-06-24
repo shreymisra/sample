@@ -3,6 +3,8 @@ package org.shreya.project.sample.Activities;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.shreya.project.sample.ColoredSnackbar;
+import org.shreya.project.sample.DbHandler;
 import org.shreya.project.sample.Fragments.Fragment1;
 import org.shreya.project.sample.Fragments.Fragment2;
 import org.shreya.project.sample.Fragments.Fragment3;
@@ -164,22 +167,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -200,6 +190,26 @@ public class MainActivity extends AppCompatActivity
             break;
             case R.id.fragment4:fragmentClass=Fragment4.class;
             break;
+            case R.id.logout:
+                new AlertDialog.Builder(this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                DbHandler.remove(MainActivity.this,"isLoggedIn");
+                                DbHandler.putBoolean(MainActivity.this,"isLoggedIn",false);
+                                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
+                break;
             default:fragmentClass=Fragment1.class;
         }
 
@@ -230,4 +240,5 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
 }

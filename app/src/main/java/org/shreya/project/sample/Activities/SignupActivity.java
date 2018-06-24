@@ -1,13 +1,18 @@
 package org.shreya.project.sample.Activities;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     UserClass userClass;
     Gson gson;
     List<UserClass> users=new ArrayList<UserClass>();
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +43,10 @@ public class SignupActivity extends AppCompatActivity {
         email=(EditText)findViewById(R.id.email);
         signup=(AppCompatButton)findViewById(R.id.signup);
         password=(EditText)findViewById(R.id.password);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
         userClass=new UserClass();
         gson=new Gson();
+        progressBar.setVisibility(View.GONE);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,24 +60,38 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(21)
     public void signupUser(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        fullName.setFocusable(false);
+        mobile.setFocusable(false);
+        email.setFocusable(false);
+        address.setFocusable(false);
+        password.setFocusable(false);
+
+        progressBar.setIndeterminate(true);
+        progressBar.setIndeterminateTintMode(PorterDuff.Mode.SRC_ATOP);
+        progressBar.setVisibility(View.VISIBLE);
+        signup.setEnabled(false);
+        signup.setBackgroundColor(getResources().getColor(R.color.lightGrey));
 
         userClass.setEmail(email.getText().toString());
         userClass.setName(fullName.getText().toString());
         userClass.setPhoneNo(mobile.getText().toString());
         userClass.setAddress(address.getText().toString());
+        userClass.setPassword(password.getText().toString());
         DbHandler.setSession(SignupActivity.this,userClass);
         DbHandler.putString(SignupActivity.this,userClass.getPhoneNo(),gson.toJson(userClass));
-        Toast.makeText(SignupActivity.this,"Successfully Registered",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(SignupActivity.this,MainActivity.class));
-        /*new Handler().postDelayed(new Runnable() {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(SignupActivity.this,"Successfully Registered",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SignupActivity.this,MainActivity.class));
             }
-        },500);
-*/
+        },2000);
     }
 }
