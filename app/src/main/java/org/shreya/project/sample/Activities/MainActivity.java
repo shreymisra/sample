@@ -197,9 +197,7 @@ public class MainActivity extends AppCompatActivity
                         .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                DbHandler.remove(MainActivity.this,"isLoggedIn");
-                                DbHandler.putBoolean(MainActivity.this,"isLoggedIn",false);
-                                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                               DbHandler.logout(MainActivity.this);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -84,6 +84,7 @@ public class DbHandler {
         }
     }
 
+
     public static void clearDb(Context context) {
         if (context != null) {
             SharedPreferences preferences = context.getSharedPreferences("Sample", 0);
@@ -93,29 +94,41 @@ public class DbHandler {
         }
     }
 
+    public static void updateInfo(Context context, UserClass userClass) {
+        if (context != null) {
+            DbHandler.putString(context, "name", userClass.getName());
+            DbHandler.putString(context, "mobile", userClass.getPhoneNo());
+            DbHandler.putString(context, "email", userClass.getEmail());
+            DbHandler.putString(context, "address", userClass.getAddress());
+            DbHandler.putString(context, "password", userClass.getPassword());
+
+        }
+    }
     public static void setSession(Context context, UserClass userClass) {
         if (context != null) {
             DbHandler.putString(context, "name", userClass.getName());
             DbHandler.putString(context, "mobile", userClass.getPhoneNo());
             DbHandler.putString(context, "email", userClass.getEmail());
             DbHandler.putString(context, "address", userClass.getAddress());
+            DbHandler.putString(context, "password", userClass.getPassword());
             DbHandler.putBoolean(context, "isLoggedIn", true);
 
         }
     }
 
     @TargetApi(16)
-    public static void unsetSession(Context context, String type) {
+    public static void logout(Context context) {
         if (context != null) {
-            DbHandler.clearDb(context);
             DbHandler.putBoolean(context, "isLoggedIn", false);
-            Bundle b = new Bundle();
-            b.putBoolean(type, true);
 
+            DbHandler.remove(context, "name");
+            DbHandler.remove(context, "mobile");
+            DbHandler.remove(context, "email");
+            DbHandler.remove(context, "address");
+            DbHandler.remove(context, "password");
 
             Intent i = new Intent(context, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtras(b);
             context.startActivity(i);
             ((Activity) context).finishAffinity();
         }

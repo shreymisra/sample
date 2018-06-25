@@ -43,9 +43,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.view_holder>
          try{
              Picasso
                      .with(context)
-                     .load("https://c1.staticflickr.com/3/2452/3985922948_360953da17.jpg")
+                     .load("https://i.pinimg.com/736x/22/1c/00/221c00d1030dfcac1e97893c9748b601--minions-love-minions-despicable-me.jpg")
                      .placeholder(R.drawable.ic_account_circle_white_24dp)
-                     .error(R.drawable.ic_account_circle_white_24dp)
+                     .error(R.drawable.mini)
                      .transform(new ImageTransform())
                      .into(holder.profile);
          }
@@ -53,6 +53,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.view_holder>
          {
              e.printStackTrace();
          }
+
          holder.name.setText("Shrey Misra");
          holder.email.setText("shreymisra8@gmail.com");
          holder.mob.setText("9451119911");
@@ -67,7 +68,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.view_holder>
                              new String[]{Manifest.permission.CALL_PHONE},
                              1000);
                  } else {
-                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "9458210305"));
+                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "9451119911"));
                      context.startActivity(intent);
                  }
 

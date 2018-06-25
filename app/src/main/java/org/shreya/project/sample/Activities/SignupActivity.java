@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -44,6 +45,8 @@ public class SignupActivity extends AppCompatActivity {
         signup=(AppCompatButton)findViewById(R.id.signup);
         password=(EditText)findViewById(R.id.password);
         progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         userClass=new UserClass();
         gson=new Gson();
         progressBar.setVisibility(View.GONE);
@@ -94,4 +97,10 @@ public class SignupActivity extends AppCompatActivity {
             }
         },2000);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 }

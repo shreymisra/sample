@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
