@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity
         }
         replaceFragment(fragment);
         item.setChecked(true);
+        if(item.getItemId()!=R.id.logout)
         setTitle(item.getTitle());
 
         drawer.closeDrawer(GravityCompat.START);
